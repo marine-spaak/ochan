@@ -119,10 +119,103 @@ class ProductController extends CoreController
 
 
   // 📝🍅 Méthode pour modifier
-  public function productUpdateAccess()
+  public function productUpdateAccess($id)
   {
     $classes = ProductClass::findAll();
-    $this->show('product/update', ['classes' => $classes]);
+    $product = Product::find($id);
+    $this->show('product/update', ['product' => $product, 'classes' => $classes]);
+  }
+
+  public function productUpdateProcess($id)
+  {
+    if (!empty($_POST)) {
+
+      $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+      $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
+      $picture = filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_SPECIAL_CHARS);
+      $class_id = filter_input(INPUT_POST, 'class_id', FILTER_SANITIZE_NUMBER_INT);
+
+      $errorList = [];
+
+      if (empty($name)) {
+        $errorList[] = 'Merci de renseigner le nom du produit';
+      }
+
+      if ($name === false) {
+        $errorList[] = 'Merci de renseigner un nom valide';
+      }
+
+      if (empty($description)) {
+        $errorList[] = 'Merci de renseigner la description du produit';
+      }
+
+      if ($description === false) {
+        $errorList[] = 'Merci de renseigner une description valide';
+      }
+
+      if (empty($picture)) {
+        $errorList[] = 'Merci de renseigner l\'image du produit';
+      }
+
+      if ($picture === false) {
+        $errorList[] = 'Merci de renseigner une image valide';
+      }
+
+      if (empty($class_id)) {
+        $errorList[] = 'Merci de renseigner la catégorie du produit';
+      }
+
+      // Pas nécessaire car on affiche les catégories via un select dans le form
+      if ($class_id === false) {
+        $errorList[] = 'Merci de renseigner une catégorie valide';
+      }
+
+      if (empty($errorList)) {
+        $objectProduct = Product::find($id);
+
+        $objectProduct->setName($name);
+        $objectProduct->setDescription($description);
+        $objectProduct->setPicture($picture);
+        $objectProduct->setClassId($class_id);
+
+        // TODO 
+        $isOkUpdate = $objectProduct->update($id);
+        // $isInsert contient un booléen (true / false)
+
+        // Si l'insertion est OK => redirection vers la liste
+        if ($isOkUpdate) {    // $isInsert vaut true
+          header('Location: /product-list');
+        } else {
+          // Sinon => message d'erreur et redirection vers le form (pas besoin ici car notre attribut action du form est vide, et donc on reste sur la page)
+          $errorList[] = 'La modification du produit a échoué';
+        }
+      } else {
+        // Ici, on a au moins une erreur
+        // On reste sur le formulaire et on souhaite transmettre à show() les champs saisis et les erreurs obtenues
+        // Pour que plus tard, le template récupère ces données pour :
+        // - pré-remplir les input du form avec les données qui ont été saisies
+        // - afficher les erreurs
+
+        // 1. On instancie un model Catégory
+        $modelProduct = new Product();
+
+        // 2. On sette les propriétés de Category
+        $modelProduct->setName($name);
+        $modelProduct->setDescription($description);
+        $modelProduct->setPicture($picture);
+        $modelProduct->setClassId($class_id);
+
+        // 3. On appelle la méthode show() en lui passanrt les données (cad valeurs des champs + erreur(s))
+        // Dans le template category-add, on récupère $viewData['category'] et $viewData['errors']
+        // et via extract() : $category et $errors
+        $this->show('product/product-update', [
+          'product' => $modelProduct,
+          'errors' => $errorList
+        ]);
+
+        // TODO : utiliser les données dans le template pour gérer l'affichage
+      }
+    }
   }
 
 

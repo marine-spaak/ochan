@@ -15,7 +15,7 @@
       <div class="card-body text-center">
         <?= $product->getId() ?> <?= $product->getName() ?>
       </div>
-      <a href="<?= $router->generate('product-update-access') ?>" class="btn btn-sm btn-warning mb-2">
+      <a href="<?= $router->generate('product-update-access', ['id' => $product->getId()]) ?>" class="btn btn-sm btn-warning mb-2">
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
       </a>
       <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

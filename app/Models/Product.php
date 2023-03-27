@@ -78,6 +78,30 @@ class Product extends CoreModel
   // 📝 UPDATE
   public function update($id)
   {
+    $pdo = Database::getPDO();
+
+    $sql = "
+        UPDATE `product`
+        SET
+        name = :name,
+        description = :description,
+        picture = :picture,
+        class_id = :class_id
+        WHERE id = :id
+    ";
+
+    $pdoStatement = $pdo->prepare($sql);
+
+    $pdoStatement->bindValue(':name', $this->name);
+    $pdoStatement->bindValue(':description', $this->description);
+    $pdoStatement->bindValue(':picture', $this->picture);
+    $pdoStatement->bindValue(':class_id', $this->class_id);
+
+    $pdoStatement->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+    $pdoStatement->execute();
+
+    return ($pdoStatement->rowCount() > 0);
   }
 
   // ❌ DELETE

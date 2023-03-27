@@ -55,8 +55,8 @@
   $router->map("GET", "/product-delete/[i:id]", ['method' => 'delete', 'controller' => ProductController::class], 'product-delete');
 
   // 📝🍅 Update
-  $router->map("GET", "/product-update", ['method' => 'productUpdateAccess', 'controller' => ProductController::class], 'product-update-access');
-  $router->map("POST", "/product-update", ['method' => 'productUpdateProcess', 'controller' => ProductController::class], 'product-update-process');
+  $router->map("GET", "/product-update/[i:id]", ['method' => 'productUpdateAccess', 'controller' => ProductController::class], 'product-update-access');
+  $router->map("POST", "/product-update/[i:id]", ['method' => 'productUpdateProcess', 'controller' => ProductController::class], 'product-update-process');
 
 #End Region
 
