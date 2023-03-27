@@ -47,7 +47,7 @@
             <a class="nav-link" href="<?= $router->generate('home') ?>">Accueil</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Item</a>
+            <a class="nav-link" href="<?= $router->generate('product-list') ?>">Produits</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Item</a>
@@ -57,5 +57,8 @@
 
   </div>
   </nav>
+
+  <img class="ochan-logo" src="<?= $assetsBaseUri ?>ochan-logo.png"/>
+
 </header>
 <main>

@@ -18,8 +18,7 @@
   // TODO 
 
   use App\Controllers\MainController;
-
-
+  use App\Controllers\ProductController;
 
   // J'instancie la classe AltoRouter
   $router = new AltoRouter();
@@ -39,9 +38,25 @@
 
 #Region
 
-  // 🏠 0 Main - home
+  // 🏠 MAIN - home
   // ==============
   $router->map("GET", "/", ['method' => 'home', 'controller' => MainController::class], 'home');
+
+  // 🍅 PRODUCT
+  // ==============
+  // 📜🍅 Liste
+  $router->map("GET", "/product-list", ['method' => 'list', 'controller' => ProductController::class], 'product-list');
+
+  // ➕🍅 Ajout
+  $router->map("GET", "/product-add", ['method' => 'productAddAccess', 'controller' => ProductController::class], 'product-add-access');
+  $router->map("POST", "/product-add", ['method' => 'productAddProcess', 'controller' => ProductController::class], 'product-add-process');
+
+  // ❌🍅 Delete
+  $router->map("GET", "/product-delete/[i:id]", ['method' => 'delete', 'controller' => ProductController::class], 'product-delete');
+
+  // 📝🍅 Update
+  $router->map("GET", "/product-update", ['method' => 'productUpdateAccess', 'controller' => ProductController::class], 'product-update-access');
+  $router->map("POST", "/product-update", ['method' => 'productUpdateProcess', 'controller' => ProductController::class], 'product-update-process');
 
 #End Region
 
