@@ -17,6 +17,10 @@
   // Je rajoute les "use" pour les controllers
   // TODO 
 
+  use App\Controllers\MainController;
+
+
+
   // J'instancie la classe AltoRouter
   $router = new AltoRouter();
 
