@@ -5,7 +5,7 @@
 </main>
 <footer>
 
-<h3>Ceci est le footer</h3>
+<h3>Ceci est un footer</h3>
         
 </footer>
 </body>
