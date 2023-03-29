@@ -13,7 +13,19 @@
     <div class="card m-2 p-3 product-card" style="width: 18rem;">
       <img class="card-img-top" src="<?= $assetsBaseUri ?><?= $product->getPicture() ?>" alt="image d'un produit">
       <div class="card-body text-center">
+        <p>
         <?= $product->getId() ?> <?= $product->getName() ?>
+        </p>
+        <?php
+        $assetsPath = "/var/www/html/S06/S06-ochan-marine-spaak/public/assets";
+        $filesource = $assetsPath . $product->getDescription();
+        $file = fopen($filesource, "r");
+        $filesize = filesize($filesource);
+        $description = fread($file, $filesize);
+        fclose($file);
+        echo "<h6 class='fst-italic'>$description</h6>";
+
+        ?>
       </div>
       <a href="<?= $router->generate('product-update-access', ['id' => $product->getId()]) ?>" class="btn btn-sm btn-warning mb-2">
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
